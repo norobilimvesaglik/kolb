@@ -178,7 +178,7 @@ button.submit-btn:hover {
   margin-top: 25px;
 }
 
-button.close-button, button.print-button {
+button.close-button {
   padding: 10px 20px;
   margin-left: 10px;
   border: none;
@@ -193,15 +193,6 @@ button.close-button {
   color: white;
 }
 
-button.print-button {
-  background-color: #2196F3;
-  color: white;
-}
-
-button.close-button:hover, button.print-button:hover {
-  opacity: 0.9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
 
 @media (max-width: 768px) {
   .container {
@@ -259,46 +250,8 @@ button.close-button:hover, button.print-button:hover {
     flex-direction: column;
   }
   
-  button.close-button, button.print-button {
+  button.close-button {
     width: 100%;
     margin: 5px 0;
-  }
-}
-
-/* Print Styles */
-@media print {
-  body {
-    background-color: white;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .container {
-    box-shadow: none;
-    border: none;
-    padding: 20px;
-    margin: 0;
-  }
-  
-  .modal-background {
-    position: static;
-    background-color: white;
-    display: block;
-  }
-  
-  .modal-content {
-    box-shadow: none;
-    padding: 0;
-    margin: 0;
-    max-width: 100%;
-    width: 100%;
-  }
-  
-  button.close-button, button.print-button, button.submit-btn {
-    display: none;
-  }
-  
-  #quizForm {
-    display: none;
   }
 }

@@ -304,18 +304,9 @@ function displayResults(resultsHTML) {
     document.body.removeChild(modalBackground);
   };
   
-  // Add print button
-  const printButton = document.createElement('button');
-  printButton.textContent = 'Yazdır';
-  printButton.className = 'print-button';
-  printButton.onclick = function() {
-    window.print();
-  };
-  
   // Add buttons to footer
   const footer = document.createElement('div');
   footer.className = 'modal-footer';
-  footer.appendChild(printButton);
   footer.appendChild(closeButton);
   
   modalContent.appendChild(footer);
