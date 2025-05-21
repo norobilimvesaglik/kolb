@@ -267,7 +267,7 @@ function submitQuiz() {
   if (acMinusCE >= 0 && aeMinusRO >= 0) {
     learningStyle = "Yakınsayan (Converger) Öğrenme Stili: Problem çözücü, pratik, teknik odaklı.";
   } else if (acMinusCE >= 0 && aeMinusRO < 0) {
-    learningStyle = "Uyumlayıcı (Assimilator) Öğrenme Stili: Mantıklı, teorik, soyut düşünen. ";
+    learningStyle = "Uyumlayıcı (Assimilator) Öğrenme Stili: Mantıklı, teorik, soyut düşünen.";
   } else if (acMinusCE < 0 && aeMinusRO < 0) {
     learningStyle = "Çeşitleyici (Diverger) Öğrenme Stili: Gözlemci, yaratıcı, empatik.";
   } else {
@@ -275,6 +275,35 @@ function submitQuiz() {
   }
   
   resultsMessage += `<div class="learning-style-result"><h3>Öğrenme Stiliniz:</h3><p>${learningStyle}</p></div>`;
+
+  // Verileri Google Sheets'e gönder
+  const payload = {
+    CE: totals.CE,
+    RO: totals.RO,
+    AC: totals.AC,
+    AE: totals.AE,
+    style: learningStyle
+  };
+
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbylUYqnPiO8Eh5zX-3I2JiarBVO2wfYTTH6J-2EAwxazao6Xu0pYg6BJDAei6SgiJTkMQ/exec';
+
+  fetch(WEB_APP_URL, { //
+    method: 'POST', //
+    mode: 'no-cors', //
+    cache: 'no-cache', //
+    headers: {
+      'Content-Type': 'application/json', //
+    },
+    body: JSON.stringify(payload), //
+  })
+  .then(response => {
+    // no-cors moduyla doğrudan bir yanıt alamazsınız,
+    // ancak istek yine de gönderilmiş olur.
+    console.log('Veriler Google E-Tabloya gönderildi.'); //
+  })
+  .catch(error => {
+    console.error('Veri gönderme hatası:', error); //
+  });
 
   // Display results in a modal
   displayResults(resultsMessage);
@@ -297,6 +326,10 @@ function displayResults(resultsHTML) {
   closeButton.className = 'close-button';
   closeButton.onclick = function() {
     document.body.removeChild(modalBackground);
+
+    // Testi sıfırla
+    const form = document.getElementById('quizForm');
+    form.reset();
   };
   
   // Add buttons to footer
