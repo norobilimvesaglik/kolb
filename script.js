@@ -134,7 +134,7 @@ window.onload = function () {
       // Add empty/default option
       const defaultOpt = document.createElement("option");
       defaultOpt.value = "";
-      defaultOpt.text = "Seçiniz";
+      defaultOpt.text = "";
       select.appendChild(defaultOpt);
       
       for (let j = 1; j <= 4; j++) {
@@ -249,15 +249,15 @@ function submitQuiz() {
     <div class="results-container">
       <div class="score-section">
         <h3>Ham Puanlar:</h3>
-        <p>CE (Somut Deneyim): ${totals.CE}</p>
+        <p>CE (Somut Yaşantı): ${totals.CE}</p>
         <p>RO (Yansıtıcı Gözlem): ${totals.RO}</p>
         <p>AC (Soyut Kavramsallaştırma): ${totals.AC}</p>
-        <p>AE (Aktif Deneyimleme): ${totals.AE}</p>
+        <p>AE (Aktif Deneme): ${totals.AE}</p>
       </div>
       <div class="score-section">
         <h3>Birleşik Puanlar:</h3>
-        <p>AC-CE (Soyut-Somut): ${acMinusCE}</p>
-        <p>AE-RO (Aktif-Yansıtıcı): ${aeMinusRO}</p>
+        <p>AC – CE (Soyutluk - Somutluk farkı): ${acMinusCE}</p>
+        <p>AE – RO (Aktiflik - Yansıtıcılık farkı): ${aeMinusRO}</p>
       </div>
     </div>
   `;
@@ -275,14 +275,9 @@ function submitQuiz() {
   }
   
   resultsMessage += `<div class="learning-style-result"><h3>Öğrenme Stiliniz:</h3><p>${learningStyle}</p></div>`;
-  
+
   // Display results in a modal
   displayResults(resultsMessage);
-  
-  console.log("Anket Sonuçları:", results);
-  console.log("Öğrenme Stili Puanları:", totals);
-  console.log("AC-CE:", acMinusCE, "AE-RO:", aeMinusRO);
-  console.log("Öğrenme Stili:", learningStyle);
 }
 
 function displayResults(resultsHTML) {
@@ -308,7 +303,6 @@ function displayResults(resultsHTML) {
   const footer = document.createElement('div');
   footer.className = 'modal-footer';
   footer.appendChild(closeButton);
-  
   modalContent.appendChild(footer);
   modalBackground.appendChild(modalContent);
   document.body.appendChild(modalBackground);
