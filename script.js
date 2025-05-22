@@ -284,8 +284,14 @@ function submitQuiz() {
     AE: totals.AE,
     style: learningStyle
   };
-
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbylUYqnPiO8Eh5zX-3I2JiarBVO2wfYTTH6J-2EAwxazao6Xu0pYg6BJDAei6SgiJTkMQ/exec';
+
+  // Kullanıcı bilgilerini payload'a ekle
+  if (window.userInfo) {
+    payload.fullName = window.userInfo.fullName;
+    payload.studentNumber = window.userInfo.studentNumber;
+    payload.email = window.userInfo.email;
+  }
 
   fetch(WEB_APP_URL, { //
     method: 'POST', //
@@ -309,6 +315,46 @@ function submitQuiz() {
   displayResults(resultsMessage);
 }
 
+// Teste başlamak için kişisel bilgileri kontrol et
+function startQuiz() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const studentNumber = document.getElementById('studentNumber').value.trim();
+  const email = document.getElementById('email').value.trim();
+  
+  if (!fullName || !studentNumber || !email) {
+    alert('Lütfen tüm alanları doldurunuz.');
+    return;
+  }
+  
+  if (!isValidEmail(email)) {
+    alert('Lütfen geçerli bir e-posta adresi giriniz.');
+    return;
+  }
+  
+  // Kullanıcı bilgilerini sakla
+  window.userInfo = {
+    fullName,
+    studentNumber,
+    email
+  };
+  
+  // Kullanıcı bilgilerini gizle ve testi göster
+  document.getElementById('userInfoForm').style.display = 'none';
+  document.getElementById('quizContent').style.display = 'block';
+
+  // En üstteki yazıyı gizle
+  const introText = document.querySelector('.intro');
+  if (introText) {
+    introText.style.display = 'none';
+  }
+}
+
+// E-posta doğrulama fonksiyonu
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 function displayResults(resultsHTML) {
   // Create a modal element
   const modalBackground = document.createElement('div');
@@ -316,8 +362,7 @@ function displayResults(resultsHTML) {
   
   const modalContent = document.createElement('div');
   modalContent.className = 'modal-content';
-  
-  // Add results to the modal
+    // Add results to the modal
   modalContent.innerHTML = resultsHTML;
   
   // Add close button
@@ -326,10 +371,9 @@ function displayResults(resultsHTML) {
   closeButton.className = 'close-button';
   closeButton.onclick = function() {
     document.body.removeChild(modalBackground);
-
-    // Testi sıfırla
-    const form = document.getElementById('quizForm');
-    form.reset();
+    
+    // Sayfayı yenile
+    window.location.reload();
   };
   
   // Add buttons to footer
